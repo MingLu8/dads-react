@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learn React in 3 Days — Dads</title>
+<style>
+:root { --navy:#1a1a2e; --teal:#0f857f; --teal-bg:#e8f7f6; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --code-bg:#0f172a; }
+* { box-sizing:border-box; }
+body { margin:0; background:#f4f5f7; color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; line-height:1.65; }
+.wrap { max-width:860px; margin:0 auto; padding:48px 24px 96px; }
+article { background:#fff; border:1px solid var(--line); border-radius:16px; padding:40px 48px;
+  box-shadow:0 6px 30px rgba(0,0,0,.05); }
+h1 { font-size:2rem; color:var(--navy); line-height:1.2; margin:.2em 0 .4em; }
+h2 { font-size:1.5rem; color:var(--navy); margin-top:2em; padding-bottom:.3em; border-bottom:2px solid var(--teal-bg); }
+h3 { font-size:1.15rem; color:var(--navy); margin-top:1.6em; }
+a { color:var(--teal); text-decoration:none; }
+a:hover { text-decoration:underline; }
+p, li { font-size:1rem; }
+code { font-family:'SF Mono',Consolas,'Liberation Mono',Menlo,monospace; font-size:.88em;
+  background:#eef1f4; color:#9333ea; padding:.12em .4em; border-radius:5px; }
+pre { background:var(--code-bg); color:#e2e8f0; padding:16px 18px; border-radius:10px; overflow:auto; font-size:.85rem; line-height:1.55; }
+pre code { background:none; color:inherit; padding:0; font-size:inherit; }
+blockquote { margin:1.2em 0; padding:14px 18px; background:var(--teal-bg); border-left:4px solid var(--teal);
+  border-radius:0 10px 10px 0; }
+blockquote p { margin:.3em 0; }
+table { border-collapse:collapse; width:100%; margin:1.2em 0; font-size:.92rem; }
+th, td { border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top; }
+th { background:#f9fafb; color:var(--navy); }
+tr:nth-child(even) td { background:#fafbfc; }
+hr { border:none; border-top:1px solid var(--line); margin:2.5em 0; }
+ul, ol { padding-left:1.4em; }
+li { margin:.3em 0; }
+.brandbar { max-width:860px; margin:0 auto; display:flex; align-items:center; gap:12px; padding:0 24px; }
+.logo { width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#18b6b0,var(--navy));
+  color:#fff; font-weight:700; font-size:22px; display:grid; place-items:center; }
+.brandbar small { color:var(--muted); }
+html { scroll-behavior: smooth; }
+:target { scroll-margin-top: 14px; }
+.toc { background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin:8px 0 36px; }
+.toc__title { margin:0 0 10px; font-weight:700; color:var(--navy); font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; }
+.toc__link { display:block; color:var(--ink); text-decoration:none; padding:5px 0 5px 12px; font-size:.93rem; border-left:2px solid transparent; transition:border-color .15s,color .15s,padding .15s; }
+.toc__link:hover { color:var(--teal); border-left-color:var(--teal); padding-left:18px; }
+@media (max-width:600px){ article{ padding:24px; } .wrap{ padding:24px 12px 64px; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brandbar"><span class="logo">L</span><div><strong>Dads</strong><br><small>React crash course</small></div></div>
+    <article>
+<h1>Learn React in 3 Days — using the Dads chat app 🚀</h1>
+<p>Welcome! You already have a working app — the <strong>Dads</strong> internal AI chat assistant. We built it
+in <strong>Angular</strong>, then rebuilt the <em>exact same app</em> in <strong>React</strong> (this folder, <code>dads-react</code>). That&#39;s
+your superpower for learning: you&#39;re not learning React on a toy to-do list, you&#39;re learning it on
+a real app you already understand.</p>
+<p><strong>Who this is for:</strong> developers who know a little JavaScript/TypeScript (and maybe Angular) and
+want to be productive in React fast.</p>
+<p><strong>How it works:</strong> 3 core days, plus bonus units on <strong>testing (Day 3½)</strong> and <strong>routing (Day 4)</strong>, and a
+hands-on <strong>build-it-yourself appendix</strong>. ~2–3 focused hours each. Every concept is shown <strong>in our app</strong>,
+with a short <strong>🅰️ Angular → ⚛️ React</strong> translation and a <strong>🛠️ Try it</strong> challenge. Do the challenges —
+that&#39;s where it sticks. (Prefer building over reading? Jump to the <strong>Appendix</strong> and construct the app
+step by step, then come back for the &quot;why.&quot;)</p>
+<p><strong>The golden rule of React, up front:</strong></p>
+<blockquote>
+<p>A React app is just <strong>functions that return HTML, and re-run when their data changes.</strong>
+That&#39;s 80% of it. The other 20% is <em>how</em> you store the data (state) and <em>when</em> the function re-runs.</p>
+</blockquote>
+<hr>
+<nav class="toc"><p class="toc__title">Contents</p><a class="toc__link" href="#day-0-setup-15-minutes">Day 0 — Setup (15 minutes)</a><a class="toc__link" href="#day-1-components-jsx-props-amp-rendering-lists">Day 1 — Components, JSX, Props &amp; Rendering Lists</a><a class="toc__link" href="#day-2-state-hooks-events-amp-forms-the-heart-of-react">Day 2 — State, Hooks, Events &amp; Forms (the heart of React)</a><a class="toc__link" href="#day-3-talking-to-the-backend-effects-auth-amp-shipping">Day 3 — Talking to the Backend, Effects, Auth &amp; Shipping</a><a class="toc__link" href="#day-3-testing-your-app-vitest-react-testing-library">Day 3½ — Testing your app (Vitest + React Testing Library) 🧪</a><a class="toc__link" href="#the-60-second-angular-react-cheat-sheet">The 60-second Angular → React cheat sheet</a><a class="toc__link" href="#day-4-routing-with-react-router">Day 4 — Routing with React Router 🧭</a><a class="toc__link" href="#the-7-gotchas-that-bite-every-beginner-bookmark-this">⚠️ The 7 gotchas that bite every beginner (bookmark this)</a><a class="toc__link" href="#appendix-build-the-app-yourself-step-by-step">🏗️ Appendix: build the app yourself, step by step</a><a class="toc__link" href="#challenge-solutions-peek-only-after-you-try">✅ Challenge solutions (peek only after you try!)</a><a class="toc__link" href="#where-to-go-next">Where to go next</a></nav><h2 id="day-0-setup-15-minutes">Day 0 — Setup (15 minutes)</h2>
+<pre><code class="language-bash">cd Dads2-NetAngular/frontend/dads-react
+npm install
+npm run dev          # opens http://localhost:4300
+</code></pre>
+<p>You&#39;ll see the chat UI. For real replies, run the .NET backend too (<code>cd ../../backend/Dads.Api &amp;&amp; dotnet run</code>)
+— the Vite dev server proxies <code>/api</code> to it. If the backend isn&#39;t running, the UI still loads (great for
+learning the front end).</p>
+<p><strong>Map of the app</strong> — open these in your editor; we&#39;ll refer to them all course long:</p>
+<pre><code>dads-react/
+├─ index.html              ← the single HTML page; has &lt;div id=&quot;root&quot;&gt;
+├─ vite.config.ts          ← dev server + /api proxy
+└─ src/
+   ├─ main.tsx                  ← entry point: renders the app into #root
+   ├─ types.ts                  ← TypeScript shapes (ChatMessage, SourceRef, SourceStatus)
+   ├─ api.ts                    ← fetch() wrappers for /api/session, /api/chat, /api/sources
+   ├─ auth.config.ts            ← Auth0 on/off toggle
+   ├─ AppRoutes.tsx             ← the route table (BrowserRouter + Routes)   ← Day 4
+   ├─ hooks/useChat.ts          ← conversation state + send logic (the &quot;service&quot;)
+   ├─ components/Layout.tsx     ← shared shell: brand, nav, &lt;Outlet/&gt;        ← Day 4
+   ├─ components/Chat.tsx       ← the chat page (&quot;/&quot;)
+   ├─ components/SourcesPage.tsx← the sources page (&quot;/sources&quot;)              ← Day 4
+   ├─ components/NotFound.tsx   ← catch-all route
+   ├─ PlainApp.tsx              ← app shell when auth is OFF (renders AppRoutes)
+   └─ AuthedApp.tsx             ← app shell when auth is ON (login gate → AppRoutes)
+</code></pre>
+<blockquote>
+<p><strong>🅰️→⚛️ Big picture:</strong> Angular is a <em>framework</em> (batteries included: DI, services, RxJS, modules,
+templates in separate <code>.html</code>). React is a <em>library</em> for the view layer — smaller core, you assemble
+the rest. Angular uses classes + decorators; React uses <strong>functions + hooks</strong>. Angular HTML lives in
+<code>.html</code> files; React HTML (<strong>JSX</strong>) lives <em>inside</em> the function, in the <code>.tsx</code> file.</p>
+</blockquote>
+<hr>
+<h2 id="day-1-components-jsx-props-amp-rendering-lists">Day 1 — Components, JSX, Props &amp; Rendering Lists</h2>
+<p><strong>Goal:</strong> understand what a component is, read JSX fluently, and render the message list from data.</p>
+<h3 id="11-a-component-is-a-function-that-returns-markup">1.1 A component is a function that returns markup</h3>
+<p>Open <a href="src/components/Chat.tsx"><code>src/components/Chat.tsx</code></a>. Strip away the details and it&#39;s just:</p>
+<pre><code class="language-tsx">export function Chat() {
+  return (
+    &lt;div className=&quot;dads&quot;&gt;
+      &lt;header className=&quot;dads__header&quot;&gt; ... &lt;/header&gt;
+      &lt;main className=&quot;dads__chat&quot;&gt; ... &lt;/main&gt;
+      &lt;footer className=&quot;dads__composer&quot;&gt; ... &lt;/footer&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>That&#39;s a <strong>component</strong>: a function whose name is Capitalized and that returns <strong>JSX</strong> (HTML-looking
+syntax). You use it like a tag: <code>&lt;Chat /&gt;</code>. See it used in <a href="src/PlainApp.tsx"><code>PlainApp.tsx</code></a>:</p>
+<pre><code class="language-tsx">export function PlainApp() {
+  return &lt;Chat /&gt;;
+}
+</code></pre>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> Angular component = a <code>@Component</code> class + a separate <code>.html</code> template + a CSS file.
+React component = <strong>one function</strong> that returns its own markup. No decorator, no separate template file.</p>
+</blockquote>
+<h3 id="12-jsx-is-html-with-javascript-holes">1.2 JSX is HTML with JavaScript holes</h3>
+<p>JSX looks like HTML but it&#39;s really JavaScript. The differences that trip people up:</p>
+<table>
+<thead>
+<tr>
+<th>HTML / Angular</th>
+<th>JSX (React)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>class=&quot;dads&quot;</code></td>
+<td><code>className=&quot;dads&quot;</code></td>
+<td><code>class</code> is a reserved JS word</td>
+</tr>
+<tr>
+<td><code>{{ title }}</code></td>
+<td><code>{title}</code></td>
+<td>single braces = &quot;drop a JS value here&quot;</td>
+</tr>
+<tr>
+<td><code>(click)=&quot;submit()&quot;</code></td>
+<td><code>onClick={submit}</code></td>
+<td>camelCase, pass the <em>function</em></td>
+</tr>
+<tr>
+<td><code>[disabled]=&quot;busy&quot;</code></td>
+<td><code>disabled={busy}</code></td>
+<td><code>{}</code> = a JS expression</td>
+</tr>
+<tr>
+<td><code>*ngIf</code> / <code>@if</code></td>
+<td><code>{cond &amp;&amp; &lt;x/&gt;}</code></td>
+<td>just JavaScript</td>
+</tr>
+<tr>
+<td><code>*ngFor</code> / <code>@for</code></td>
+<td><code>array.map(...)</code></td>
+<td>just JavaScript</td>
+</tr>
+</tbody></table>
+<p>Anything inside <code>{ }</code> is live JavaScript. In <code>Chat.tsx</code>:</p>
+<pre><code class="language-tsx">&lt;p&gt;Dadsniti internal assistant · React&lt;/p&gt;     {/* static text */}
+&lt;div className=&quot;bubble__text&quot;&gt;{msg.content}&lt;/div&gt;  {/* {msg.content} = a JS value */}
+</code></pre>
+<h3 id="13-rendering-a-list-map-instead-of-ngfor">1.3 Rendering a list — <code>.map()</code> instead of <code>*ngFor</code></h3>
+<p>This is the single most common React pattern. In <code>Chat.tsx</code>:</p>
+<pre><code class="language-tsx">{messages.map((msg, i) =&gt; (
+  &lt;div key={i} className={`bubble ${msg.role === &#39;user&#39; ? &#39;bubble--user&#39; : &#39;bubble--dads&#39;}`}&gt;
+    &lt;div className=&quot;bubble__text&quot;&gt;{msg.content}&lt;/div&gt;
+  &lt;/div&gt;
+))}
+</code></pre>
+<p><code>messages</code> is an array; <code>.map()</code> turns each item into a <code>&lt;div&gt;</code>. React needs a <strong><code>key</code></strong> on each item
+(a stable id) so it can update the list efficiently — the equivalent of Angular&#39;s <code>trackBy</code>.</p>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> <code>*ngFor=&quot;let msg of messages&quot;</code> → <code>{messages.map(msg =&gt; &lt;.../&gt;)}</code>.
+<code>[class.bubble--user]=&quot;msg.role===&#39;user&#39;&quot;</code> → <code>className={\</code>bubble ${cond ? &#39;bubble--user&#39; : &#39;&#39;}`}`.</p>
+</blockquote>
+<h3 id="14-conditional-rendering-ampamp-and">1.4 Conditional rendering — <code>&amp;&amp;</code> and <code>? :</code></h3>
+<p>No <code>*ngIf</code> directive — you use plain JS expressions that evaluate to JSX (or nothing):</p>
+<pre><code class="language-tsx">{messages.length === 0 &amp;&amp; (
+  &lt;div className=&quot;dads__empty&quot;&gt;&lt;p&gt;Ask me something…&lt;/p&gt;&lt;/div&gt;
+)}
+
+{busy &amp;&amp; (
+  &lt;div className=&quot;bubble bubble--dads&quot;&gt;&lt;div className=&quot;typing&quot;&gt;Dads is thinking…&lt;/div&gt;&lt;/div&gt;
+)}
+</code></pre>
+<p><code>cond &amp;&amp; &lt;jsx/&gt;</code> renders the JSX only when <code>cond</code> is true (because <code>false</code> renders nothing). For
+either/or, use a ternary: <code>{loggedIn ? &lt;Chat/&gt; : &lt;Login/&gt;}</code> — exactly what <code>AuthedApp.tsx</code> does.</p>
+<h3 id="15-props-passing-data-into-a-component">1.5 Props — passing data into a component</h3>
+<p>A component receives inputs called <strong>props</strong> (like Angular <code>@Input()</code>s). Look at the top of <code>Chat.tsx</code>:</p>
+<pre><code class="language-tsx">interface ChatProps {
+  getToken?: () =&gt; Promise&lt;string | undefined&gt;;
+  userEmail?: string;
+  onLogout?: () =&gt; void;
+}
+
+export function Chat({ getToken, userEmail, onLogout }: ChatProps) { ... }
+</code></pre>
+<p>The parent decides what to pass. <code>PlainApp</code> passes nothing (<code>&lt;Chat /&gt;</code>); <code>AuthedApp</code> passes all three:</p>
+<pre><code class="language-tsx">&lt;Chat getToken={() =&gt; getAccessTokenSilently()} userEmail={user?.email} onLogout={() =&gt; logout(...)} /&gt;
+</code></pre>
+<p>Inside <code>Chat</code>, props are read-only. Notice <code>{userEmail &amp;&amp; &lt;span&gt;{userEmail}&lt;/span&gt;}</code> — the email chip
+only shows when a parent provided one.</p>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> <code>@Input() userEmail: string</code> → a field in the props object. <code>@Output() logout = new EventEmitter()</code>
+→ a prop that <em>is a function</em> (<code>onLogout</code>). In React, &quot;passing data down&quot; and &quot;passing callbacks up&quot; both
+happen through props.</p>
+</blockquote>
+<h3 id="deep-dive-key-and-why-index-keys-can-bite">💡 Deep dive: <code>key</code> — and why index keys can bite</h3>
+<p>React needs a <code>key</code> on each list item to track which DOM node maps to which piece of data across
+re-renders. The key must be <strong>stable and unique per item</strong>. We use the array index (<code>key={i}</code>) in <code>Chat</code>,
+which is fine <em>here</em> because messages are only ever <strong>appended</strong> — item 0 stays item 0 forever.</p>
+<p>But index keys break the moment a list can <strong>reorder, filter, or insert at the top</strong>. Delete the first
+item and every remaining index shifts by one, so React thinks <em>every</em> row changed identity — it can reuse
+the wrong DOM node, and any per-row component state (a half-typed input, an open menu) jumps to the wrong
+row. Rule of thumb: <strong>use a real id</strong> (<code>key={msg.id}</code>) whenever items can move; index keys only for
+static, append-only lists. Never use <code>Math.random()</code> as a key — it changes every render, defeating the
+whole point.</p>
+<h3 id="deep-dive-components-must-be-pure-during-render">💡 Deep dive: components must be <em>pure</em> during render</h3>
+<p>Your component function can run <strong>many times</strong>, whenever React decides — so the render body must be a
+<em>pure calculation of UI from props/state</em>. <strong>No side effects in the body:</strong></p>
+<pre><code class="language-tsx">function Chat() {
+  fetch(&#39;/api/...&#39;)   // ❌ runs on every render — a storm of requests
+  setDraft(&#39;x&#39;)       // ❌ setState during render → infinite re-render loop
+  return &lt;div/&gt;;
+}
+</code></pre>
+<p>Side effects belong in <strong>event handlers</strong> (<code>onClick</code>) or in <strong><code>useEffect</code></strong> (Day 3). The mental split:
+render = <em>&quot;describe the UI&quot;</em>; handlers/effects = <em>&quot;do things.&quot;</em> This purity is exactly what lets React
+re-render freely and fast.</p>
+<h3 id="day-1-challenges">🛠️ Day 1 challenges</h3>
+<ol>
+<li>In <code>Chat.tsx</code>, change the subtitle text and watch it hot-reload instantly.</li>
+<li>Add a message count to the header: <code>&lt;span&gt;{messages.length} messages&lt;/span&gt;</code>.</li>
+<li>Make the empty-state text only show a tip when there are <strong>zero</strong> messages <strong>and</strong> not busy:
+<code>{messages.length === 0 &amp;&amp; !busy &amp;&amp; (...)}</code>.</li>
+<li>Temporarily hardcode two fake messages to see the list render (we&#39;ll make it real on Day 2):<pre><code class="language-tsx">const messages = [
+  { role: &#39;user&#39;, content: &#39;hi&#39; },
+  { role: &#39;assistant&#39;, content: &#39;Hello! I am Dads.&#39; },
+];
+</code></pre>
+</li>
+</ol>
+<p><strong>Day 1 recap:</strong> components are functions returning JSX; <code>{}</code> drops JS in; <code>.map()</code> renders lists;
+<code>&amp;&amp;</code>/<code>?:</code> render conditionally; props pass data (and callbacks) between components.</p>
+<hr>
+<h2 id="day-2-state-hooks-events-amp-forms-the-heart-of-react">Day 2 — State, Hooks, Events &amp; Forms (the heart of React)</h2>
+<p><strong>Goal:</strong> make the UI <em>interactive</em>. Yesterday we rendered data; today the data changes and the screen
+updates itself. This is where React clicks.</p>
+<h3 id="21-the-mental-model-state-in-ui-out">2.1 The mental model: state in, UI out</h3>
+<blockquote>
+<p>When <strong>state</strong> changes, React <strong>re-runs your component function</strong> and updates the screen to match.</p>
+</blockquote>
+<p>You never touch the DOM directly (no <code>document.getElementById</code>, no <code>*ngModel</code> two-way magic). You change
+a variable; React re-renders. The tool for &quot;a variable that triggers re-render&quot; is the <strong><code>useState</code></strong> hook.</p>
+<h3 id="22-usestate-a-value-react-watches">2.2 <code>useState</code> — a value React watches</h3>
+<p>In <code>Chat.tsx</code>:</p>
+<pre><code class="language-tsx">const [draft, setDraft] = useState(&#39;&#39;);
+</code></pre>
+<p>Read that as: &quot;give me a state variable <code>draft</code> (starts as <code>&#39;&#39;</code>) and a setter <code>setDraft</code>.&quot; When you call
+<code>setDraft(&#39;hello&#39;)</code>, React re-renders <code>Chat</code> and <code>draft</code> is now <code>&#39;hello&#39;</code>. <strong>Always change state via the
+setter</strong> — never <code>draft = &#39;hello&#39;</code> (React wouldn&#39;t know).</p>
+<p><code>useChat.ts</code> has two more:</p>
+<pre><code class="language-tsx">const [messages, setMessages] = useState&lt;ChatMessage[]&gt;([]);  // the conversation
+const [busy, setBusy]         = useState(false);              // is a request in flight?
+</code></pre>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> Angular re-renders automatically when a class field changes (zone.js / signals). React needs
+you to call the setter so it knows. <code>useState</code> ≈ an Angular <code>signal()</code>: <code>count()</code> → <code>count</code>,
+<code>count.set(5)</code> → <code>setCount(5)</code>.</p>
+</blockquote>
+<p><strong>Rule of hooks:</strong> call hooks at the <strong>top level</strong> of a component (or another hook), never inside loops,
+conditions, or nested functions. (That&#39;s why <code>AuthedApp</code>/<code>PlainApp</code> are split — so <code>useAuth0()</code> is only
+called when the provider exists.)</p>
+<h3 id="23-events-onclick-onchange-onkeydown">2.3 Events — <code>onClick</code>, <code>onChange</code>, <code>onKeyDown</code></h3>
+<p>Events are props you pass a function to. From <code>Chat.tsx</code>:</p>
+<pre><code class="language-tsx">&lt;button onClick={submit}&gt;Send&lt;/button&gt;
+&lt;button onClick={reset}&gt;New chat&lt;/button&gt;
+</code></pre>
+<p>Pass the function (<code>onClick={submit}</code>), don&#39;t call it (<code>onClick={submit()}</code> would run it during render — a
+classic bug). Need arguments? Wrap in an arrow: <code>onClick={() =&gt; logout(...)}</code>.</p>
+<h3 id="24-controlled-inputs-react39s-version-of-ngmodel">2.4 Controlled inputs — React&#39;s version of <code>[(ngModel)]</code></h3>
+<p>This is the one concept Angular devs must rewire. In Angular, <code>[(ngModel)]=&quot;draft&quot;</code> binds both ways
+automatically. In React you wire the two directions <strong>explicitly</strong> — and that&#39;s considered a feature
+(the input&#39;s value is always exactly your state):</p>
+<pre><code class="language-tsx">&lt;textarea
+  value={draft}                          // state → input  (display)
+  onChange={e =&gt; setDraft(e.target.value)} // input → state  (capture typing)
+  onKeyDown={onKeyDown}
+  disabled={busy}
+/&gt;
+</code></pre>
+<p>This is a <strong>controlled component</strong>: <code>draft</code> is the single source of truth. Want to clear the box after
+sending? Just <code>setDraft(&#39;&#39;)</code> — the textarea follows. See <code>submit()</code>:</p>
+<pre><code class="language-tsx">const submit = () =&gt; {
+  const text = draft.trim();
+  if (!text || busy) return;
+  setDraft(&#39;&#39;);        // clears the textarea
+  void send(text);     // fire the request
+};
+</code></pre>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> <code>[(ngModel)]=&quot;draft&quot;</code> = <code>value={draft}</code> + <code>onChange={e =&gt; setDraft(e.target.value)}</code>.
+Two-way binding is just two one-way bindings you can see.</p>
+</blockquote>
+<h3 id="25-useref-a-value-that-does-not-trigger-re-render">2.5 <code>useRef</code> — a value that does <em>not</em> trigger re-render</h3>
+<p>Sometimes you need to remember something that isn&#39;t UI. In <code>useChat.ts</code>:</p>
+<pre><code class="language-tsx">const sessionId = useRef&lt;string | null&gt;(null);
+// ...later:
+if (!sessionId.current) sessionId.current = await createSession();
+</code></pre>
+<p><code>sessionId.current</code> survives re-renders but changing it does <strong>not</strong> re-render (unlike state). Perfect for
+&quot;plumbing&quot; like the session id. Think of it as a private instance field on the old Angular service.</p>
+<h3 id="26-custom-hooks-your-quotservicequot-layer">2.6 Custom hooks — your &quot;service&quot; layer</h3>
+<p>A <strong>custom hook</strong> is just a function named <code>useSomething</code> that uses other hooks. <code>useChat.ts</code> bundles all
+conversation logic so the component stays about <em>display</em>:</p>
+<pre><code class="language-tsx">export function useChat(getToken?) {
+  const [messages, setMessages] = useState&lt;ChatMessage[]&gt;([]);
+  const [busy, setBusy] = useState(false);
+  const sessionId = useRef&lt;string | null&gt;(null);
+
+  const send = useCallback(async (text) =&gt; { /* ...append, call API, append reply... */ }, [busy, getToken]);
+  const reset = useCallback(() =&gt; { setMessages([]); sessionId.current = null; }, []);
+
+  return { messages, busy, send, reset };
+}
+</code></pre>
+<p>The component just consumes it:</p>
+<pre><code class="language-tsx">const { messages, busy, send, reset } = useChat(getToken);
+</code></pre>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> This is the React answer to an Angular <strong>service</strong>. Angular: <code>@Injectable</code> class + DI into the
+constructor. React: a <code>useXxx</code> function you call at the top of a component. Same goal (reusable logic,
+separated from the view), different mechanism. <code>useCallback</code> just memoizes a function so it isn&#39;t
+recreated every render — a performance nicety, optional while learning.</p>
+</blockquote>
+<h3 id="deep-dive-why-the-rules-of-hooks-exist-the-most-important-3-minutes">💡 Deep dive: <em>why</em> the Rules of Hooks exist (the most important 3 minutes)</h3>
+<p>You met the rule in 2.2. Here&#39;s the mechanism — once you get it, you&#39;ll never write a hook bug again.</p>
+<p><strong>React identifies hooks by call ORDER, not by name.</strong> It stores each component&#39;s hook data in an ordered
+list — picture numbered slots. When <code>Chat</code> renders:</p>
+<pre><code class="language-tsx">const { messages, busy } = useChat(getToken); // slot 0
+const [draft, setDraft]  = useState(&#39;&#39;);      // slot 1
+</code></pre>
+<p>React records &quot;slot 0 = useChat&#39;s state, slot 1 = draft.&quot; Every re-render it walks the list <strong>in the same
+order</strong> and hands slot 0 to the first hook call, slot 1 to the second. The names are <em>yours</em>; React just
+counts: 1st hook, 2nd hook, 3rd…</p>
+<p>So hide a hook behind a condition and the slots shift:</p>
+<pre><code class="language-tsx">// ❌ illegal
+if (loggedIn) { const [draft] = useState(&#39;&#39;); } // present some renders, gone others
+const [busy] = useState(false);                  // slot 0 OR slot 1 depending on loggedIn!
+</code></pre>
+<p>Now <code>busy</code> sometimes reads the slot that holds <code>draft</code>. State leaks into the wrong hook and you get the
+runtime error <strong>&quot;Rendered fewer hooks than expected.&quot;</strong> Stable call order is the entire contract.</p>
+<p><strong>Legal ways to be conditional:</strong> put the <code>if</code> <em>inside</em> the hook (<code>useEffect(() =&gt; { if (x) … }, [x])</code>),
+or call all hooks first and <code>return</code> early <em>after</em> them (what <code>AuthedApp</code> does), or split into two
+components.</p>
+<p><strong>This is why our app splits <code>AuthedApp</code> / <code>PlainApp</code>.</strong> <code>useAuth0()</code> (a) can&#39;t be called conditionally
+per the rule above, and (b) only works inside <code>&lt;Auth0Provider&gt;</code>, which <code>main.tsx</code> mounts only when auth is
+enabled. So we choose the <em>whole component</em> at the top: <code>AuthedApp</code> <strong>always</strong> calls <code>useAuth0()</code> (and is
+only ever rendered inside the provider); <code>PlainApp</code> <strong>never</strong> calls it. No hook is ever conditional — we
+pushed the branch <em>up and out</em> of the components. (Same reasoning as the Angular optional-inject we used,
+different mechanism.) The <code>eslint-plugin-react-hooks</code> rule flags violations as you type — trust it.</p>
+<h3 id="deep-dive-state-is-a-snapshot-updates-are-async-batched">💡 Deep dive: state is a <em>snapshot</em> (updates are async + batched)</h3>
+<p>This trips up <em>everyone</em>. <code>setBusy(true)</code> does <strong>not</strong> change <code>busy</code> on the next line — it schedules a
+re-render. During the current render your variables are a frozen snapshot:</p>
+<pre><code class="language-tsx">const [count, setCount] = useState(0);
+function onClick() {
+  setCount(count + 1);   // count is 0 → schedules 1
+  setCount(count + 1);   // count is STILL 0 → schedules 1 (not 2!)
+  console.log(count);    // logs 0 — the change isn&#39;t visible until the next render
+}
+</code></pre>
+<p>Both calls read the same snapshot, so you get <strong>1</strong>, not 2. The fix is the <strong>functional updater</strong> — pass a
+function that receives the latest value:</p>
+<pre><code class="language-tsx">setCount(prev =&gt; prev + 1);
+setCount(prev =&gt; prev + 1);   // now → 2
+</code></pre>
+<p>That&#39;s exactly why <code>useChat</code> appends with <code>setMessages(prev =&gt; [...prev, msg])</code> rather than
+<code>setMessages([...messages, msg])</code>: between the user message and the assistant reply there are several
+updates, and the functional form always sees the freshest array. React also <strong>batches</strong> the setters fired
+in one event into a single re-render — another reason state can&#39;t change mid-function.</p>
+<h3 id="deep-dive-never-mutate-state-replace-it">💡 Deep dive: never <em>mutate</em> state — replace it</h3>
+<p>React decides whether to re-render by comparing the <strong>reference</strong> (identity) of your state, not its
+contents. Mutating in place is therefore invisible:</p>
+<pre><code class="language-tsx">messages.push(newMsg);                    // ❌ same array reference → React sees &quot;no change&quot;
+setMessages(messages);                    // ❌ still the same reference → no re-render
+setMessages(prev =&gt; [...prev, newMsg]);   // ✅ NEW array → reference changed → re-render
+</code></pre>
+<p>Same for objects: <code>setUser(u =&gt; ({ ...u, name: &#39;X&#39; }))</code>, never <code>user.name = &#39;X&#39;</code>. Treat state as
+<strong>read-only</strong> and always produce a new value — that&#39;s the deep reason the spread <code>...</code> is everywhere in
+React code.</p>
+<h3 id="day-2-challenges">🛠️ Day 2 challenges</h3>
+<ol>
+<li>Add a character counter under the textarea: <code>&lt;small&gt;{draft.length}/4000&lt;/small&gt;</code>.</li>
+<li>Disable Send when the draft is empty — already done (<code>disabled={busy || !draft.trim()}</code>); now also
+trim to 4000 chars in <code>onChange</code>.</li>
+<li>Add a &quot;Clear draft&quot; button: <code>&lt;button onClick={() =&gt; setDraft(&#39;&#39;)}&gt;Clear&lt;/button&gt;</code>.</li>
+<li><strong>Without the backend:</strong> temporarily make <code>useChat.send</code> echo instead of calling the API:<pre><code class="language-tsx">setMessages(prev =&gt; [...prev, { role: &#39;assistant&#39;, content: `You said: ${message}` }]);
+</code></pre>
+Type, hit Enter — watch state drive the whole UI. Then revert.</li>
+<li>Why is <code>setMessages(prev =&gt; [...prev, x])</code> better than <code>setMessages([...messages, x])</code>? (Hint: stale
+closures — the functional form always sees the latest state.)</li>
+</ol>
+<p><strong>Day 2 recap:</strong> <code>useState</code> = watched value; change it via its setter to re-render. Events are function
+props. Inputs are <em>controlled</em> (<code>value</code> + <code>onChange</code>). <code>useRef</code> = non-rendering memory. Custom hooks =
+your reusable logic/service layer.</p>
+<hr>
+<h2 id="day-3-talking-to-the-backend-effects-auth-amp-shipping">Day 3 — Talking to the Backend, Effects, Auth &amp; Shipping</h2>
+<p><strong>Goal:</strong> connect the UI to the real API, understand <code>useEffect</code> and Context, see how auth is wired, and
+build for production.</p>
+<h3 id="31-fetching-data-fetch-asyncawait">3.1 Fetching data — <code>fetch</code> + <code>async/await</code></h3>
+<p>No <code>HttpClient</code>, no RxJS <code>Observable</code> — React uses the browser&#39;s <code>fetch</code>. The whole API layer is
+<a href="src/api.ts"><code>src/api.ts</code></a>:</p>
+<pre><code class="language-tsx">export async function sendChat(sessionId, message, token?) {
+  const res = await fetch(&#39;/api/chat&#39;, {
+    method: &#39;POST&#39;,
+    headers: { &#39;Content-Type&#39;: &#39;application/json&#39;, ...(token &amp;&amp; { Authorization: `Bearer ${token}` }) },
+    body: JSON.stringify({ message, sessionId }),
+  });
+  if (!res.ok) throw new Error(`chat failed: ${res.status}`);
+  return res.json();
+}
+</code></pre>
+<p><code>useChat.send</code> orchestrates it: optimistically add the user&#39;s message, flip <code>busy</code> on, await the reply,
+add it, flip <code>busy</code> off (in <code>finally</code>), and on error append a friendly message. Notice there&#39;s <strong>no
+manual subscribe/unsubscribe</strong> — <code>await</code> reads like normal code.</p>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> Angular <code>this.http.post(url, body).subscribe(...)</code> (an Observable you must unsubscribe).
+React: <code>const res = await fetch(...)</code> then <code>await res.json()</code>. For one-shot calls, promises are simpler
+than Observables. The <code>/api</code> proxy (<a href="vite.config.ts"><code>vite.config.ts</code></a>) replaces Angular&#39;s <code>proxy.conf.json</code>.</p>
+</blockquote>
+<h3 id="32-useeffect-running-code-as-a-side-effect-of-rendering">3.2 <code>useEffect</code> — running code as a side effect of rendering</h3>
+<p>Our chat is event-driven (you click Send), so it doesn&#39;t need <code>useEffect</code>. But it&#39;s a core hook, so here&#39;s
+the model: <strong><code>useEffect</code> runs <em>after</em> render</strong>, and re-runs when its dependencies change. Use it to sync
+with the outside world (fetch on load, subscriptions, timers, <code>document.title</code>).</p>
+<pre><code class="language-tsx">// Example: load sources status once when the component mounts.
+useEffect(() =&gt; {
+  fetch(&#39;/api/sources&#39;).then(r =&gt; r.json()).then(setSources);
+}, []);   // [] = &quot;run once on mount&quot;
+</code></pre>
+<p>The dependency array is the key:</p>
+<ul>
+<li><code>[]</code> → run <strong>once</strong> (on mount). ≈ Angular <code>ngOnInit</code>.</li>
+<li><code>[x]</code> → run on mount <strong>and</strong> whenever <code>x</code> changes.</li>
+<li><em>(omitted)</em> → run after <strong>every</strong> render (rarely what you want).</li>
+<li>return a function → <strong>cleanup</strong>. ≈ Angular <code>ngOnDestroy</code> / unsubscribing.</li>
+</ul>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> <code>ngOnInit</code> → <code>useEffect(fn, [])</code>. <code>ngOnChanges</code> → <code>useEffect(fn, [theInput])</code>.
+<code>ngOnDestroy</code> → the cleanup function you <code>return</code> from the effect.</p>
+</blockquote>
+<h3 id="33-context-dependency-injection-react-style">3.3 Context — dependency injection, React-style</h3>
+<p>Auth0 needs to share &quot;is the user logged in?&quot; with any component. React&#39;s tool for app-wide shared data is
+<strong>Context</strong> (a Provider at the top, consumers anywhere below). See <a href="src/main.tsx"><code>main.tsx</code></a>:</p>
+<pre><code class="language-tsx">&lt;Auth0Provider domain={...} clientId={...} authorizationParams={{ redirect_uri: window.location.origin }}&gt;
+  &lt;AuthedApp /&gt;
+&lt;/Auth0Provider&gt;
+</code></pre>
+<p>Then <strong>any</strong> component inside can read it with the <code>useAuth0()</code> hook — no prop-drilling.
+<a href="src/AuthedApp.tsx"><code>AuthedApp.tsx</code></a>:</p>
+<pre><code class="language-tsx">const { isAuthenticated, loginWithRedirect, logout, user, getAccessTokenSilently } = useAuth0();
+if (!isAuthenticated) return &lt;LoginScreen onClick={() =&gt; loginWithRedirect()} /&gt;;
+return &lt;Chat getToken={() =&gt; getAccessTokenSilently()} userEmail={user?.email} onLogout={...} /&gt;;
+</code></pre>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> This is React&#39;s <strong>dependency injection</strong>. Angular: <code>providedIn: &#39;root&#39;</code> + inject into a
+constructor. React: wrap a <code>&lt;Provider&gt;</code> and call its hook (<code>useAuth0</code>, or <code>useContext(MyContext)</code>).</p>
+</blockquote>
+<h3 id="34-the-auth-onoff-toggle-and-the-quotrules-of-hooksquot-payoff">3.4 The auth on/off toggle (and the &quot;rules of hooks&quot; payoff)</h3>
+<p><a href="src/auth.config.ts"><code>auth.config.ts</code></a> has <code>enabled</code>. <code>main.tsx</code> chooses the tree:</p>
+<pre><code class="language-tsx">authConfig.enabled
+  ? &lt;Auth0Provider ...&gt;&lt;AuthedApp /&gt;&lt;/Auth0Provider&gt;   // login gate, tokens on requests
+  : &lt;PlainApp /&gt;                                        // no auth (backend dev bypass)
+</code></pre>
+<p>Why two components (<code>AuthedApp</code> vs <code>PlainApp</code>)? Because <strong>hooks can&#39;t be conditional</strong> — you can&#39;t call
+<code>useAuth0()</code> only &quot;sometimes.&quot; So we decide <em>which component renders</em> at the top, and each one calls its
+hooks unconditionally. This is the same reasoning the Angular app used (optional-inject vs not).</p>
+<h3 id="35-build-amp-ship">3.5 Build &amp; ship</h3>
+<pre><code class="language-bash">npm run typecheck     # tsc --noEmit — catches type errors
+npm run build         # vite build → dist/  (static HTML/JS/CSS)
+npm run preview       # serve the built bundle locally
+</code></pre>
+<p><code>dist/</code> is plain static files — host them anywhere (Azure Static Web Apps, a CDN, or behind the .NET app).
+In production you&#39;d point the app at the real API origin instead of the dev proxy.</p>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> <code>ng build</code> → <code>vite build</code>. Angular&#39;s build is heavier (AOT compile, zone.js); Vite is famously
+fast. Output is the same idea: a <code>dist/</code> of static assets.</p>
+</blockquote>
+<h3 id="deep-dive-the-dependency-array-amp-stale-closures">💡 Deep dive: the dependency array &amp; stale closures</h3>
+<p>The <code>useEffect</code> trap that catches everyone: <strong>if you read a prop or state inside the effect but forget to
+list it in <code>deps</code>, the effect keeps using the OLD value.</strong> This is a &quot;stale closure.&quot; Every render creates
+fresh copies of your functions that <em>capture</em> that render&#39;s values; an effect with <code>[]</code> captures only the
+<strong>first</strong> render&#39;s values, forever.</p>
+<pre><code class="language-tsx">useEffect(() =&gt; {
+  const id = setInterval(() =&gt; console.log(count), 1000);
+  return () =&gt; clearInterval(id);
+}, []);     // ❌ logs 0 forever — captured the first render&#39;s count
+            // ✅ use [count] so it re-subscribes with the latest value
+</code></pre>
+<p>Rule: <strong>list every reactive value the effect uses.</strong> The <code>eslint-plugin-react-hooks</code> <em>exhaustive-deps</em>
+rule tells you exactly what&#39;s missing — don&#39;t silence it, fix it. (And recall Day 2&#39;s functional
+<code>setState(prev =&gt; …)</code>: it lets you update state <em>without</em> depending on it, sidestepping some stale-closure
+cases entirely.)</p>
+<h3 id="deep-dive-why-your-effect-runs-twice-in-dev-strictmode">💡 Deep dive: why your effect runs <em>twice</em> in dev (StrictMode)</h3>
+<p><code>main.tsx</code> wraps the app in <code>&lt;React.StrictMode&gt;</code>. In <strong>development only</strong>, StrictMode deliberately mounts
+each component twice (mount → unmount → mount) to flush out bugs: effects that don&#39;t clean up, or that
+aren&#39;t safe to run twice. If you see an effect fire twice locally — a duplicate fetch, a double log —
+that&#39;s not a bug, it&#39;s StrictMode stress-testing you. The fix is <strong>never</strong> &quot;remove StrictMode&quot;; it&#39;s
+&quot;return a cleanup function and make the effect idempotent.&quot; In production it runs once.</p>
+<h3 id="day-3-challenges">🛠️ Day 3 challenges</h3>
+<ol>
+<li>Add a <code>useEffect</code> that sets <code>document.title = \</code>Dads (${messages.length})`<code>whenever</code>messages` changes.</li>
+<li>Add a tiny &quot;connection&quot; indicator: <code>useEffect(() =&gt; { fetch(&#39;/api/ping&#39;)... }, [])</code> and show ✅/❌.</li>
+<li>Flip <code>authConfig.enabled</code> to <code>true</code> (you&#39;ll need an Auth0 SPA app + the <code>clientId</code>/<code>audience</code>, and
+<code>http://localhost:4300</code> in the allowed URLs) and watch the login gate appear.</li>
+<li><strong>Capstone:</strong> add a &quot;copy reply&quot; button to each assistant bubble (<code>navigator.clipboard.writeText</code>),
+and a keyboard shortcut. You now know components, state, events, and effects — everything you need.</li>
+</ol>
+<p><strong>Day 3 recap:</strong> <code>fetch</code> + <code>async/await</code> for data; <code>useEffect(fn, deps)</code> for side effects (deps control
+when); Context = DI for app-wide data (<code>Auth0Provider</code> + <code>useAuth0</code>); decide the component tree at the top
+so hooks stay unconditional; <code>vite build</code> ships static files.</p>
+<hr>
+<h2 id="day-3-testing-your-app-vitest-react-testing-library">Day 3½ — Testing your app (Vitest + React Testing Library) 🧪</h2>
+<p>You shipped a working app — now let&#39;s make sure it <em>stays</em> working. The app already has a full test
+suite (<code>npm run test:run</code> → <strong>18 passing tests</strong>). Let&#39;s read it; it&#39;s the best way to learn testing.</p>
+<p><strong>The stack:</strong></p>
+<ul>
+<li><strong>Vitest</strong> — the test runner (Vite-native, fast, Jest-compatible API). Config: <a href="vitest.config.ts"><code>vitest.config.ts</code></a>.</li>
+<li><strong>React Testing Library (RTL)</strong> — render components and query them <em>like a user would</em>.</li>
+<li><strong>jsdom</strong> — a fake browser DOM so tests run in Node (no real browser needed).</li>
+</ul>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> Angular ships Karma + Jasmine + <code>TestBed</code>. React&#39;s common stack is Vitest (or Jest) + RTL.
+<code>TestBed.createComponent</code> → RTL&#39;s <code>render</code>. Jasmine <code>spyOn</code> → Vitest <code>vi.fn()</code> / <code>vi.mock()</code>.</p>
+</blockquote>
+<p><strong>The golden rule of RTL:</strong></p>
+<blockquote>
+<p>Test <strong>behavior, not implementation.</strong> Find things the way a user does (by text, label, role) and
+assert on what they&#39;d see — not on internal state or function names. This keeps tests from breaking
+when you refactor.</p>
+</blockquote>
+<h3 id="the-testing-pyramid-we-test-at-3-levels">The testing pyramid — we test at 3 levels</h3>
+<p><strong>1. Pure functions</strong> — easiest. <a href="src/api.test.ts"><code>src/api.test.ts</code></a> tests the fetch wrappers by
+stubbing the global <code>fetch</code>:</p>
+<pre><code class="language-ts">it(&#39;sendChat POSTs message + sessionId and returns the reply&#39;, async () =&gt; {
+  const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () =&gt; ({ reply: &#39;hi&#39;, sessionId: &#39;abc&#39; }) });
+  vi.stubGlobal(&#39;fetch&#39;, fetchMock);
+
+  const res = await sendChat(&#39;abc&#39;, &#39;hello&#39;);
+
+  expect(res.reply).toBe(&#39;hi&#39;);
+  const [url, opts] = fetchMock.mock.calls[0];
+  expect(url).toBe(&#39;/api/chat&#39;);
+  expect(JSON.parse(opts.body)).toEqual({ message: &#39;hello&#39;, sessionId: &#39;abc&#39; });
+});
+</code></pre>
+<p><code>vi.fn()</code> makes a spy you can inspect (<code>.mock.calls</code>); <code>vi.stubGlobal</code> swaps out <code>fetch</code> so no real
+network happens.</p>
+<p><strong>2. Hooks</strong> — test logic without a UI. <a href="src/hooks/useChat.test.ts"><code>src/hooks/useChat.test.ts</code></a> uses
+<code>renderHook</code> + <code>act</code>, and <strong>mocks the whole api module</strong> so it never hits the network:</p>
+<pre><code class="language-ts">vi.mock(&#39;../api&#39;);                       // auto-replaces createSession/sendChat with spies
+const mockedApi = vi.mocked(api);
+
+it(&#39;send() appends the user message then the assistant reply&#39;, async () =&gt; {
+  mockedApi.createSession.mockResolvedValue(&#39;session-1&#39;);
+  mockedApi.sendChat.mockResolvedValue({ reply: &#39;Hello from Dads&#39;, sessionId: &#39;session-1&#39; });
+
+  const { result } = renderHook(() =&gt; useChat());
+  await act(async () =&gt; { await result.current.send(&#39;hi&#39;); });
+
+  expect(result.current.messages).toEqual([
+    { role: &#39;user&#39;, content: &#39;hi&#39; },
+    { role: &#39;assistant&#39;, content: &#39;Hello from Dads&#39;, sources: undefined },
+  ]);
+});
+</code></pre>
+<p><code>act(...)</code> tells React &quot;I&#39;m about to cause state updates — apply them before I assert.&quot; Wrap anything
+that triggers a re-render in it.</p>
+<p><strong>3. Components</strong> — the most valuable. <a href="src/components/Chat.test.tsx"><code>src/components/Chat.test.tsx</code></a>
+renders the real component and drives it like a user with <code>userEvent</code>:</p>
+<pre><code class="language-tsx">it(&#39;sends a message and renders the user turn and the reply&#39;, async () =&gt; {
+  const user = userEvent.setup();
+  render(&lt;Chat /&gt;);
+
+  await user.type(screen.getByPlaceholderText(/how can i help/i), &#39;how many accounts?&#39;);
+  await user.click(screen.getByRole(&#39;button&#39;, { name: /send/i }));
+
+  expect(await screen.findByText(&#39;how many accounts?&#39;)).toBeInTheDocument();
+  expect(await screen.findByText(/11,180 accounts/)).toBeInTheDocument();
+});
+</code></pre>
+<h3 id="the-5-things-you39ll-use-constantly">The 5 things you&#39;ll use constantly</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>render(&lt;C/&gt;)</code></td>
+<td>Mounts a component into jsdom</td>
+</tr>
+<tr>
+<td><code>screen.getByRole / getByText / getByPlaceholderText</code></td>
+<td>Find elements the way a user would</td>
+</tr>
+<tr>
+<td><code>findBy…</code> (async)</td>
+<td>Wait for something that appears <em>after</em> an async update (await it)</td>
+</tr>
+<tr>
+<td><code>queryBy…</code></td>
+<td>Returns <code>null</code> if not found — use to assert something is <strong>absent</strong></td>
+</tr>
+<tr>
+<td><code>userEvent</code></td>
+<td>Realistic interactions: <code>type</code>, <code>click</code>, <code>keyboard</code></td>
+</tr>
+<tr>
+<td><code>vi.fn()</code> / <code>vi.mock()</code></td>
+<td>Spies and module mocks</td>
+</tr>
+<tr>
+<td><code>expect(el).toBeInTheDocument()</code></td>
+<td>jsdom matchers (from <code>@testing-library/jest-dom</code>)</td>
+</tr>
+</tbody></table>
+<p><strong>Query cheat:</strong> <code>getBy*</code> throws if missing (use when it <em>should</em> exist now) · <code>findBy*</code> waits (async)
+· <code>queryBy*</code> returns null (use for &quot;should NOT be there&quot;). Prefer <strong>role/label/text</strong> over test-ids.</p>
+<h3 id="running-them">Running them</h3>
+<pre><code class="language-bash">npm test         # watch mode — re-runs on save while you code
+npm run test:run # one-shot, for CI
+</code></pre>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> <code>fixture.detectChanges()</code> → just <code>await</code> a <code>findBy…</code> (RTL auto-waits). Angular&#39;s
+<code>TestBed.configureTestingModule({ providers: [...] })</code> → in React you <code>vi.mock()</code> the module or wrap
+in a test Provider. Mocking is more explicit and there&#39;s no DI container to configure.</p>
+</blockquote>
+<h3 id="day-3-challenges-2">🛠️ Day 3½ challenges</h3>
+<ol>
+<li>Run <code>npm run test:run</code> and read the 18 green checks. Open each test file alongside the source it tests.</li>
+<li>Add a test: &quot;Send stays disabled until you type.&quot; (<code>getByRole(&#39;button&#39;, {name:/send/i})</code> →
+<code>toBeDisabled()</code>, type a char, assert <code>not.toBeDisabled()</code>).</li>
+<li>Break something on purpose (e.g. change the empty-state text in <code>Chat.tsx</code>) and watch a test go red —
+that&#39;s the safety net working.</li>
+<li>Stretch: test the error path — <code>mockedApi.sendChat.mockRejectedValueOnce(new Error(&#39;x&#39;))</code> and assert a
+friendly message renders.</li>
+</ol>
+<p><strong>Day 3½ recap:</strong> test behavior like a user (RTL), at three levels — pure functions (stub <code>fetch</code>),
+hooks (<code>renderHook</code> + <code>act</code>, mock the module), components (<code>render</code> + <code>userEvent</code> + <code>screen</code>). <code>getBy</code>
+(now) / <code>findBy</code> (async) / <code>queryBy</code> (absent). Mock with <code>vi.fn()</code>/<code>vi.mock()</code>.</p>
+<hr>
+<h2 id="the-60-second-angular-react-cheat-sheet">The 60-second Angular → React cheat sheet</h2>
+<table>
+<thead>
+<tr>
+<th>Angular</th>
+<th>React</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Component</code> class + <code>.html</code> template</td>
+<td>a function returning JSX</td>
+</tr>
+<tr>
+<td><code>{{ value }}</code></td>
+<td><code>{value}</code></td>
+</tr>
+<tr>
+<td><code>*ngFor=&quot;let x of xs&quot;</code></td>
+<td><code>{xs.map(x =&gt; &lt;.../&gt;)}</code> (+ <code>key</code>)</td>
+</tr>
+<tr>
+<td><code>*ngIf</code> / <code>@if</code></td>
+<td><code>{cond &amp;&amp; &lt;.../&gt;}</code> or <code>cond ? a : b</code></td>
+</tr>
+<tr>
+<td><code>[class.x]=&quot;c&quot;</code></td>
+<td><code>className={c ? &#39;x&#39; : &#39;&#39;}</code></td>
+</tr>
+<tr>
+<td><code>(click)=&quot;f()&quot;</code></td>
+<td><code>onClick={f}</code></td>
+</tr>
+<tr>
+<td><code>[(ngModel)]=&quot;v&quot;</code></td>
+<td><code>value={v}</code> + <code>onChange={e =&gt; setV(e.target.value)}</code></td>
+</tr>
+<tr>
+<td><code>@Input()</code></td>
+<td>a prop</td>
+</tr>
+<tr>
+<td><code>@Output()</code> EventEmitter</td>
+<td>a callback prop (<code>onX</code>)</td>
+</tr>
+<tr>
+<td>a class field</td>
+<td><code>useState</code></td>
+</tr>
+<tr>
+<td><code>signal()</code> / <code>.set()</code></td>
+<td><code>useState</code> / setter</td>
+</tr>
+<tr>
+<td><code>@Injectable</code> service + DI</td>
+<td>a custom hook (<code>useXxx</code>) or Context</td>
+</tr>
+<tr>
+<td><code>HttpClient.get().subscribe()</code></td>
+<td><code>await fetch()</code></td>
+</tr>
+<tr>
+<td><code>ngOnInit</code></td>
+<td><code>useEffect(fn, [])</code></td>
+</tr>
+<tr>
+<td><code>ngOnDestroy</code></td>
+<td>cleanup returned from <code>useEffect</code></td>
+</tr>
+<tr>
+<td><code>ng build</code></td>
+<td><code>vite build</code></td>
+</tr>
+<tr>
+<td>Karma + Jasmine + <code>TestBed</code></td>
+<td>Vitest + React Testing Library</td>
+</tr>
+<tr>
+<td><code>TestBed.createComponent</code></td>
+<td><code>render(&lt;C/&gt;)</code></td>
+</tr>
+<tr>
+<td><code>fixture.detectChanges()</code></td>
+<td><code>await screen.findBy…</code> (auto-waits)</td>
+</tr>
+<tr>
+<td><code>jasmine.createSpy</code> / <code>spyOn</code></td>
+<td><code>vi.fn()</code> / <code>vi.mock()</code></td>
+</tr>
+<tr>
+<td><code>ng test</code></td>
+<td><code>npm test</code> / <code>npm run test:run</code></td>
+</tr>
+<tr>
+<td><code>RouterModule.forRoot(routes)</code></td>
+<td><code>&lt;BrowserRouter&gt;</code> + <code>&lt;Routes&gt;</code>/<code>&lt;Route&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;router-outlet&gt;</code></td>
+<td><code>&lt;Outlet/&gt;</code></td>
+</tr>
+<tr>
+<td><code>routerLink</code> / <code>routerLinkActive</code></td>
+<td><code>&lt;Link&gt;</code> / <code>&lt;NavLink&gt;</code></td>
+</tr>
+<tr>
+<td><code>Router.navigate()</code></td>
+<td><code>useNavigate()</code></td>
+</tr>
+<tr>
+<td><code>ActivatedRoute.params</code></td>
+<td><code>useParams()</code></td>
+</tr>
+</tbody></table>
+<h2 id="day-4-routing-with-react-router">Day 4 — Routing with React Router 🧭</h2>
+<p>Real apps have more than one screen. The app now has two routes — <strong>Chat</strong> (<code>/</code>) and <strong>Sources</strong>
+(<code>/sources</code>) — with nav between them. React doesn&#39;t ship a router; the standard is <strong>react-router-dom</strong>.</p>
+<pre><code class="language-bash">npm install react-router-dom
+</code></pre>
+<h3 id="the-route-table-srcapproutestsx">The route table — <a href="src/AppRoutes.tsx"><code>src/AppRoutes.tsx</code></a></h3>
+<pre><code class="language-tsx">&lt;BrowserRouter&gt;
+  &lt;Routes&gt;
+    &lt;Route element={&lt;Layout … /&gt;}&gt;                      {/* layout route: shared shell */}
+      &lt;Route index element={&lt;Chat … /&gt;} /&gt;              {/* &quot;/&quot;        */}
+      &lt;Route path=&quot;sources&quot; element={&lt;SourcesPage /&gt;} /&gt; {/* &quot;/sources&quot; */}
+      &lt;Route path=&quot;*&quot; element={&lt;NotFound /&gt;} /&gt;          {/* anything else */}
+    &lt;/Route&gt;
+  &lt;/Routes&gt;
+&lt;/BrowserRouter&gt;
+</code></pre>
+<ul>
+<li><strong><code>BrowserRouter</code></strong> — turns on history-API routing (clean URLs, no <code>#</code>). Wrap it once, near the top.</li>
+<li><strong><code>Routes</code> / <code>Route</code></strong> — match the URL to an element. <code>index</code> is the default child (<code>/</code>); <code>path=&quot;*&quot;</code> is the catch-all.</li>
+<li><strong>Layout route</strong> — a <code>&lt;Route&gt;</code> that wraps children renders <code>&lt;Layout&gt;</code> once; each child renders into the Layout&#39;s <code>&lt;Outlet/&gt;</code>.</li>
+</ul>
+<h3 id="navigating-navlink-link-usenavigate">Navigating — <code>NavLink</code>, <code>Link</code>, <code>useNavigate</code></h3>
+<p><a href="src/components/Layout.tsx"><code>src/components/Layout.tsx</code></a> uses <code>NavLink</code>, which knows when it&#39;s active:</p>
+<pre><code class="language-tsx">&lt;NavLink to=&quot;/&quot; end className={({ isActive }) =&gt; (isActive ? &#39;active&#39; : &#39;&#39;)}&gt;Chat&lt;/NavLink&gt;
+&lt;NavLink to=&quot;/sources&quot;&gt;Sources&lt;/NavLink&gt;
+&lt;Outlet /&gt;   {/* the matched page renders here */}
+</code></pre>
+<ul>
+<li><code>Link</code> / <code>NavLink</code> do <strong>client-side</strong> navigation — no full page reload. Use them instead of <code>&lt;a href&gt;</code>.</li>
+<li><code>NavLink</code> adds active styling automatically (<code>end</code> = exact match, needed for &quot;/&quot;).</li>
+<li>Navigate from code after an action: <code>const navigate = useNavigate(); navigate(&#39;/sources&#39;);</code></li>
+<li>Route params: <code>&lt;Route path=&quot;ticket/:id&quot; …&gt;</code> then <code>const { id } = useParams();</code></li>
+</ul>
+<h3 id="how-routing-composes-with-auth">How routing composes with auth</h3>
+<p>The auth gate stays <em>outside</em> the router: <code>AuthedApp</code> does the login check, then renders <code>&lt;AppRoutes/&gt;</code>;
+<code>PlainApp</code> renders <code>&lt;AppRoutes/&gt;</code> directly. &quot;Are you logged in?&quot; is decided once; routing handles &quot;which
+page&quot; after that.</p>
+<blockquote>
+<p><strong>🅰️→⚛️</strong> <code>RouterModule.forRoot(routes)</code> → <code>&lt;BrowserRouter&gt;</code> + <code>&lt;Routes&gt;</code>. <code>&lt;router-outlet&gt;</code> →
+<code>&lt;Outlet/&gt;</code>. <code>routerLink</code> → <code>&lt;Link to&gt;</code>. <code>routerLinkActive</code> → <code>NavLink</code>&#39;s <code>isActive</code>.
+<code>Router.navigate()</code> → <code>useNavigate()</code>. <code>ActivatedRoute.params</code> → <code>useParams()</code>.</p>
+</blockquote>
+<h3 id="deep-dive-client-side-routing-needs-a-server-fallback">💡 Deep dive: client-side routing needs a server fallback</h3>
+<p><code>BrowserRouter</code> changes the URL <strong>without asking the server</strong> — it just swaps components in place. Great
+UX, but: if a user hard-refreshes <code>/sources</code>, the browser asks your <em>server</em> for <code>/sources</code>, which isn&#39;t a
+real file → <strong>404</strong>. The fix is an <strong>SPA fallback</strong>: configure the host to serve <code>index.html</code> for <em>all</em>
+paths. Vite&#39;s dev server and <code>vite preview</code> do this automatically; on Nginx / Azure Static Web Apps you
+add a catch-all rewrite to <code>index.html</code>. Forget this and routing &quot;works in dev, 404s in prod&quot; — a classic.</p>
+<h3 id="day-4-challenges">🛠️ Day 4 challenges</h3>
+<ol>
+<li>Add an <code>/about</code> route with a small <code>&lt;About/&gt;</code> component and a <code>NavLink</code> to it.</li>
+<li>Use <code>useNavigate</code> to jump to <code>/sources</code> from a button on the chat page.</li>
+<li>Add a param route <code>/ticket/:id</code> that reads <code>useParams()</code> and displays the id.</li>
+</ol>
+<p><strong>Day 4 recap:</strong> <code>BrowserRouter</code> + <code>Routes</code>/<code>Route</code> map URLs to components; a layout route + <code>&lt;Outlet/&gt;</code>
+shares a shell; <code>NavLink</code>/<code>Link</code> navigate without reloads; <code>useNavigate</code>/<code>useParams</code> for code + params;
+remember the <strong>SPA fallback</strong> in production.</p>
+<hr>
+<h2 id="the-7-gotchas-that-bite-every-beginner-bookmark-this">⚠️ The 7 gotchas that bite every beginner (bookmark this)</h2>
+<p>These are the deep dives above, distilled. 90% of &quot;why is React doing that?!&quot; moments are one of these:</p>
+<ol>
+<li><strong>Hooks must run in the same order every render</strong> — never call them in <code>if</code>/loops/nested fns. React
+matches hooks by call order, not name. <em>(Day 2 deep dive)</em></li>
+<li><strong>State is a snapshot</strong> — <code>setX(v)</code> doesn&#39;t change <code>x</code> until the next render. Need the latest value?
+<code>setX(prev =&gt; …)</code>.</li>
+<li><strong>Never mutate state</strong> — build a new array/object (<code>[...prev, x]</code>); React compares by reference, so
+in-place edits don&#39;t re-render.</li>
+<li><strong>List every effect dependency</strong> — a missing dep = stale value (a &quot;stale closure&quot;). Trust
+<em>exhaustive-deps</em>.</li>
+<li><strong>Stable <code>key</code>s</strong> — real ids for lists that can reorder/filter; array index only for append-only lists.</li>
+<li><strong>No side effects in the render body</strong> — put them in event handlers or <code>useEffect</code>; render must be pure.</li>
+<li><strong>Effects run twice in dev (StrictMode)</strong> — make them idempotent and return a cleanup function; it&#39;s
+not a bug.</li>
+</ol>
+<h2 id="appendix-build-the-app-yourself-step-by-step">🏗️ Appendix: build the app yourself, step by step</h2>
+<p>Prefer learning by <em>building</em>? Start from an empty folder and add one piece at a time. <strong>Every step
+runs</strong> — you always have something working. Each links to the concept day that explains it.</p>
+<h3 id="step-1-scaffold">Step 1 — Scaffold</h3>
+<pre><code class="language-bash">npm create vite@latest dads-react -- --template react-ts
+cd dads-react &amp;&amp; npm install &amp;&amp; npm run dev
+</code></pre>
+<p>✅ Vite&#39;s starter page loads. <em>(Day 0)</em></p>
+<h3 id="step-2-a-static-chat-shell">Step 2 — A static chat shell</h3>
+<p>Replace <code>src/App.tsx</code> with hardcoded markup: a header, an empty message area, a <code>&lt;textarea&gt;</code> + Send
+button. Paste in the CSS. ✅ Looks like the app, does nothing yet. <em>(Day 1 — components &amp; JSX)</em></p>
+<h3 id="step-3-render-messages-from-data">Step 3 — Render messages from data</h3>
+<p>Add an array and <code>.map()</code> it into bubbles (with a <code>key</code>):</p>
+<pre><code class="language-tsx">const messages = [
+  { role: &#39;user&#39;, content: &#39;hi&#39; },
+  { role: &#39;assistant&#39;, content: &#39;Hello! I am Dads.&#39; },
+];
+// …
+{messages.map((m, i) =&gt; &lt;div key={i} className={`bubble bubble--${m.role}`}&gt;{m.content}&lt;/div&gt;)}
+</code></pre>
+<p>✅ Two bubbles render. <em>(Day 1 — lists &amp; keys)</em></p>
+<h3 id="step-4-make-the-input-work-state">Step 4 — Make the input work (state)</h3>
+<pre><code class="language-tsx">const [draft, setDraft] = useState(&#39;&#39;);
+&lt;textarea value={draft} onChange={e =&gt; setDraft(e.target.value)} /&gt;
+&lt;button disabled={!draft.trim()}&gt;Send&lt;/button&gt;
+</code></pre>
+<p>✅ Typing works; Send enables/disables. <em>(Day 2 — state &amp; controlled inputs)</em></p>
+<h3 id="step-5-send-local-echo-first">Step 5 — Send (local echo first)</h3>
+<pre><code class="language-tsx">const [messages, setMessages] = useState&lt;ChatMessage[]&gt;([]);
+function submit() {
+  setMessages(prev =&gt; [...prev, { role: &#39;user&#39;, content: draft }]);
+  setMessages(prev =&gt; [...prev, { role: &#39;assistant&#39;, content: `You said: ${draft}` }]);
+  setDraft(&#39;&#39;);
+}
+</code></pre>
+<p>✅ You can &quot;chat&quot; with an echo bot. <em>(Day 2 — events, immutability)</em></p>
+<h3 id="step-6-extract-logic-into-a-hook">Step 6 — Extract logic into a hook</h3>
+<p>Move <code>messages</code> / <code>busy</code> / <code>send</code> into <code>src/hooks/useChat.ts</code>; the component becomes
+<code>const { messages, busy, send } = useChat();</code>. ✅ Same behavior, leaner component. <em>(Day 2 — custom hooks)</em></p>
+<h3 id="step-7-talk-to-the-backend">Step 7 — Talk to the backend</h3>
+<p>Create <code>src/api.ts</code> (<code>createSession</code>, <code>sendChat</code> using <code>fetch</code>), add the Vite <code>/api</code> proxy in
+<code>vite.config.ts</code>, and call them from <code>useChat</code>. Start the .NET backend. ✅ Real Dads replies.
+<em>(Day 3 — fetch &amp; async)</em></p>
+<h3 id="step-8-add-routing">Step 8 — Add routing</h3>
+<pre><code class="language-bash">npm install react-router-dom
+</code></pre>
+<p>Create <code>Layout</code> (nav + <code>&lt;Outlet/&gt;</code>), <code>SourcesPage</code> (fetch <code>/api/sources</code> in <code>useEffect</code>), and <code>AppRoutes</code>
+(<code>BrowserRouter</code> + <code>Routes</code>). ✅ Chat + Sources pages with working nav. <em>(Day 4 — routing; Day 3 — useEffect)</em></p>
+<h3 id="step-9-add-auth0-optional">Step 9 — Add Auth0 (optional)</h3>
+<pre><code class="language-bash">npm install @auth0/auth0-react
+</code></pre>
+<p>Add <code>auth.config.ts</code>, wrap in <code>&lt;Auth0Provider&gt;</code> when enabled, split <code>AuthedApp</code> / <code>PlainApp</code>, and attach
+the token in <code>useChat</code>. ✅ Login gate + authenticated API calls. <em>(Day 3 — Context; Day 2 — rules of hooks)</em></p>
+<h3 id="step-10-test-it">Step 10 — Test it</h3>
+<pre><code class="language-bash">npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
+</code></pre>
+<p>Add <code>vitest.config.ts</code> + <code>src/test/setup.ts</code>; write tests for the api, the hook, and the components.
+✅ A green suite. <em>(Day 3½ — testing)</em></p>
+<h3 id="step-11-build-amp-ship">Step 11 — Build &amp; ship</h3>
+<pre><code class="language-bash">npm run build      # → dist/
+</code></pre>
+<p>Host the static files with an <strong>SPA fallback</strong> to <code>index.html</code>. 🎉 You built the whole app.</p>
+<hr>
+<h2 id="challenge-solutions-peek-only-after-you-try">✅ Challenge solutions (peek only after you try!)</h2>
+<p><strong>Day 1 — show a message count</strong> (in <code>Layout.tsx</code> or the chat header)</p>
+<pre><code class="language-tsx">&lt;span className=&quot;dads__user&quot;&gt;{messages.length} messages&lt;/span&gt;
+</code></pre>
+<p><strong>Day 2 — character counter</strong> (under the <code>&lt;textarea&gt;</code> in <code>Chat.tsx</code>)</p>
+<pre><code class="language-tsx">&lt;small&gt;{draft.length}/4000&lt;/small&gt;
+</code></pre>
+<p><strong>Day 4 — add an <code>/about</code> route</strong> (three small edits)</p>
+<ol>
+<li><code>src/components/About.tsx</code></li>
+</ol>
+<pre><code class="language-tsx">export function About() {
+  return (
+    &lt;main className=&quot;page&quot;&gt;
+      &lt;h2&gt;About Dads&lt;/h2&gt;
+      &lt;p&gt;Dads is Dadsniti&#39;s internal AI assistant — this is the React + .NET port.&lt;/p&gt;
+    &lt;/main&gt;
+  );
+}
+</code></pre>
+<ol start="2">
+<li>register it inside the layout route in <code>src/AppRoutes.tsx</code></li>
+</ol>
+<pre><code class="language-tsx">&lt;Route path=&quot;about&quot; element={&lt;About /&gt;} /&gt;
+</code></pre>
+<ol start="3">
+<li>add a nav link in <code>src/components/Layout.tsx</code></li>
+</ol>
+<pre><code class="language-tsx">&lt;NavLink to=&quot;/about&quot; className={linkClass}&gt;About&lt;/NavLink&gt;
+</code></pre>
+<p>✅ Visit <code>/about</code>; the nav highlights it (that&#39;s <code>NavLink</code>&#39;s <code>isActive</code> at work).</p>
+<p><strong>Day 4 — navigate from code with <code>useNavigate</code></strong></p>
+<pre><code class="language-tsx">import { useNavigate } from &#39;react-router-dom&#39;;
+// inside the component:
+const navigate = useNavigate();
+&lt;button onClick={() =&gt; navigate(&#39;/sources&#39;)}&gt;View sources&lt;/button&gt;
+</code></pre>
+<p><strong>Day 4 — a route param</strong> <code>/ticket/:id</code></p>
+<pre><code class="language-tsx">// AppRoutes.tsx (inside the layout route)
+&lt;Route path=&quot;ticket/:id&quot; element={&lt;Ticket /&gt;} /&gt;
+
+// components/Ticket.tsx
+import { useParams } from &#39;react-router-dom&#39;;
+export function Ticket() {
+  const { id } = useParams();      // id is a string from the URL
+  return &lt;main className=&quot;page&quot;&gt;&lt;h2&gt;Ticket {id}&lt;/h2&gt;&lt;/main&gt;;
+}
+</code></pre>
+<p>Test it by visiting <code>/ticket/50247</code>.</p>
+<hr>
+<h2 id="where-to-go-next">Where to go next</h2>
+<ul>
+<li><strong>react.dev</strong> — the official tutorial and docs (excellent; written for this era of React).</li>
+<li>Add a real router (<code>react-router</code>) when the app grows past one screen.</li>
+<li>Data libraries: <strong>TanStack Query</strong> for server data (caching, retries) — it would tidy <code>useChat</code>.</li>
+<li>You already shipped a real app. Rebuild one small screen of something <em>you</em> use — that&#39;s the fastest
+way from &quot;I read it&quot; to &quot;I know it.&quot;</li>
+</ul>
+<p>Happy hacking! The whole point: React is <strong>functions + state + JSX</strong>. Everything else is a detail you&#39;ll
+pick up by building. You&#39;ve got a real app to practice on — go change things and watch them update. ⚛️</p>
+
+    </article>
+  </div>
+</body>
+</html>
