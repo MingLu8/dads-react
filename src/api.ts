@@ -14,6 +14,7 @@ export async function createSession(token?: string): Promise<string> {
   const response = await fetch('/api/session', {
     method: 'POST',
     headers: header(token),
+    body: '{}'
   });
 
   if (!response.ok) {
