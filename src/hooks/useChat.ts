@@ -39,7 +39,7 @@ export function useChat(): UseChatReturn {
         if(!sessionId.current) sessionId.current = await createSession(token);
 
         const chatApiResponse = await sendChat(sessionId.current, message, token);
-        setMessages(prev => [...prev, chatApiResponse.reply])
+        setMessages(prev => [...prev, createMessage('bot', chatApiResponse.message)])
       }
       catch{
         setMessages(prev=>[...prev, createMessage('system', 'I ran into a problem reaching the server, Please try again.')])

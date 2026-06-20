@@ -7,8 +7,7 @@ export interface ChatMessage {
 }
 
 export interface ChatApiResponse {
-  reply: ChatMessage;
-  history: ChatMessage[];
+  message: string;
 }
 
 export interface AuthContextValue{
