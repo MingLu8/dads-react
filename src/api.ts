@@ -49,6 +49,11 @@ export async function getSessions(token?: string): Promise<SessionSummary[]> {
   return (await res.json()) as SessionSummary[];
 }
 
+export async function deleteSession(id: string, token?: string): Promise<void>{
+  const res = await fetch(`api/sessions/${encodeURIComponent(id)}`, {method: 'DELETE', headers: header(token)});
+  if(!res.ok) throw new Error(`delete session ${id} failed: ${res.status}`);
+}
+
 export async function getSessionHistory(id:string, token?:string): Promise<SessionHistoryResponse>{
   const res = await fetch(`/api/session/${encodeURIComponent(id)}`, {headers: header(token)});
   if(!res.ok) throw new Error(`session ${id} failed: ${res.status}`);
