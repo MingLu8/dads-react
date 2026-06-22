@@ -32,7 +32,7 @@ export function Chat() {
                     <div key={i} className={`bubble ${m.role === 'user' ? 'bubble--user' : 'bubble--dads'}`}>
                         <div className="bubble__text">{m.content}</div>
                         {
-
+                            
                         }
                     </div>
                 ))

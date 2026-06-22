@@ -1,4 +1,4 @@
-import type { ChatApiResponse, ChatMessage } from "./types";
+import type { ChatApiResponse, ChatMessage, SessionHistoryResponse, SessionSummary } from "./types";
 
 export function header(token?: string): HeadersInit {
   const headers: HeadersInit = {
@@ -27,7 +27,6 @@ export async function createSession(token?: string): Promise<string> {
 
 export async function sendChat(sessionId: string, message: string, token?: string): Promise<ChatApiResponse> {
   const chatMessage: ChatMessage = {
-    id: crypto.randomUUID(),
     content: message,
     role: 'user',
   };
@@ -42,4 +41,16 @@ export async function sendChat(sessionId: string, message: string, token?: strin
   }
 
   return (await response.json()) as ChatApiResponse;
+}
+
+export async function getSessions(token?: string): Promise<SessionSummary[]> {
+  const res = await fetch('/api/sessions', {headers: header(token)});
+  if(!res.ok) throw new Error(`sessions failed: ${res.status}`);
+  return (await res.json()) as SessionSummary[];
+}
+
+export async function getSessionHistory(id:string, token?:string): Promise<SessionHistoryResponse>{
+  const res = await fetch(`/api/session/${encodeURIComponent(id)}`, {headers: header(token)});
+  if(!res.ok) throw new Error(`session ${id} failed: ${res.status}`);
+  return (await res.json()) as SessionHistoryResponse;
 }

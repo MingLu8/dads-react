@@ -6,16 +6,25 @@ export function AuthedApp() {
     const { user, isLoading, isAuthenticated, loginWithRedirect, logout, getIdTokenClaims } = useAuth0();
 
     if(isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="dads">
+                <main className="dads__login">
+                    <p>Loading...</p>
+                </main>
+            </div>
+        );
     }
 
     if(!isAuthenticated) {
         return (
-            <div className="flex flex-col items-center justify-center h-screen">
-                <h1 className="text-4xl font-bold mb-4">Welcome to the Chat Application</h1>
-                <button onClick={() => loginWithRedirect()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Login
-                </button>
+            <div className="dads">
+                <main className="dads__login">
+                    <div className="dads__login-card">
+                        <h2>Sign in to Dads</h2>
+                        <p>Access is restricted.</p>
+                        <button className="dads__btn dads__btn--primary" onClick={()=> loginWithRedirect()}>Log in</button>
+                    </div>
+                </main>
             </div>
         )
     }

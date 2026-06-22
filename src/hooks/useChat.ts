@@ -1,18 +1,17 @@
 import { useCallback, useEffectEvent, useRef, useState } from 'react';
-import { createId } from '../utils';
 import type { ChatMessage, Role } from '../types';
-import { createSession, sendChat } from '../api';
+import { createSession, getSessionHistory, sendChat } from '../api';
 import { useAuth } from './useAuth';
 
 type UseChatReturn = {
   messages: ChatMessage[];
   busy: boolean;
   reset: () => void;
+  resume: (id: string) => void;
   send: (content: string) => Promise<void>;
 };
 
 const createMessage = (role: Role, content: string): ChatMessage => ({
-  id: createId(),
   role,
   content,
 });
@@ -55,10 +54,18 @@ export function useChat(): UseChatReturn {
     },
     [])
 
+  const resume = useEffectEvent(async (id: string) => {
+    const token = getToken? await getToken() : undefined;
+    const data = await getSessionHistory(id, token);
+    sessionId.current = data.sessionId;
+    setMessages(data.history.map(a=> ({ role: a.role, content: a.content})));
+  });
+
   return {
     messages,
     busy,
     reset,
     send,
+    resume,
   };
 }

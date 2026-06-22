@@ -2,21 +2,30 @@ import { useAuth } from "../hooks/useAuth";
 import { NavLink, Outlet } from "react-router-dom";
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "underline font-semibold" : "hover:underline";
+    isActive ? "dads__navlink dads__navlink--active" : "dads__navlink";
 
 export function Layout(){
     const {userEmail, onLogout} = useAuth();
     return (
-        <div className="flex flex-col h-screen">
-            <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-                <h1 className="text-xl font-bold">Chat Application</h1>
-                <nav className="space-x-4">
+        <div className="dads">
+            <header className="dads__header">
+                <div className="dads__header">
+                    <div className="dads__brand">
+                        <span className="dads__logo">D</span>
+                        <div>
+                            <h1>Dads</h1>
+                            <p>Drug Adjudication Diagnostic System -- React</p>
+                        </div>
+                    </div>
+                </div>
+                <nav className="dads__nav">
                     <NavLink to="/" end className={linkClass}>Chat</NavLink>
+                    <NavLink to="/history" className={linkClass}>History</NavLink>
                     <NavLink to="/sources" className={linkClass}>Sources</NavLink>
                 </nav>
-                <div className="flex items-center">
-                    <span className="mr-4">{userEmail}</span>
-                    <button onClick={onLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <div className="dads__actions">
+                    {userEmail && <span className="dads__user">{userEmail}</span>}
+                    <button onClick={onLogout} className="dads__btn">
                         Logout
                     </button>
                 </div>
