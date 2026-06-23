@@ -1,8 +1,8 @@
 import { useState, type KeyboardEvent } from "react"
-import { useChat } from "../hooks/useChat"
+import { useChatContext } from "../ChatContext"
 
 export function Chat() {
-    const { messages, busy, send, reset } = useChat();
+    const { messages, busy, send, reset } = useChatContext();
     const [draft, setDraft] = useState('')
     
     const submit = () =>{
