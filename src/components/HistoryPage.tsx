@@ -26,8 +26,8 @@ export function HistoryPage(){
         navigate('/');
     }
 
-    const remove = async (e: MouseEvent, id: string) => {
-        e.stopPropagation();
+    const remove = async (id: string) => {
+        
         const token = getToken ? await getToken() : undefined;
         await deleteSession(id, token);
         setSessions(prev => prev?.filter(a=> a.id !== id) ?? null);
@@ -49,7 +49,7 @@ export function HistoryPage(){
                             onKeyDown={e=> { if(e.key === 'Enter') open(a.id);}}>
                             <span className="sources__label">{a.title}</span>
                             <span className="sources__status">{a.messageCount} msgs. {new Date(a.lastAccessedAt).toLocaleDateString()}</span>
-                            <button className="dads__btn history__del" onClick={e=> remove(e, a.id)} aria-label={`Delete conversation: ${a.title}`}>Delete</button>
+                            <button className="dads__btn history__del" onClick={e=> {e.stopPropagation(); remove(a.id)}} aria-label={`Delete conversation: ${a.title}`}>Delete</button>
                         </li>
                     ))}
                 </ul>
