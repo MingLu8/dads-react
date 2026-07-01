@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Chrome (dads-react)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4300",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "vite: dev",
+      "sourceMaps": true
+    },
+    {
+      "name": "Launch Edge (dads-react)",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:4300",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "vite: dev",
+      "sourceMaps": true
+    },
+    {
+      "name": "Attach to Chrome (port 9222)",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "url": "http://localhost:4300",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true
+    }
+  ]
+}
