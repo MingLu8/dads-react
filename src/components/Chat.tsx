@@ -1,10 +1,17 @@
-import { useState, type KeyboardEvent } from "react"
+import { useEffect, useRef, useState, type KeyboardEvent } from "react"
 import { useChatContext } from "../ChatContext"
 
 export function Chat() {
     const { messages, busy, send, reset } = useChatContext();
     const [draft, setDraft] = useState('')
-    
+    // const inputRef = useRef<HTMLTextAreaElement>(null);
+
+    // Disabling the textarea while busy blurs it (disabled elements can't hold focus).
+    // Restore focus once the agent responds so the user can keep typing.
+    // useEffect(() => {
+    //     if (!busy) inputRef.current?.focus();
+    // }, [busy]);
+
     const submit = () =>{
         const content = draft.trim();
         if(!content || busy) return;
@@ -49,12 +56,13 @@ export function Chat() {
             <footer className="dads__composer">
                 <button type="button" className="dads__btn" onClick={reset} title="Start a new chat">New Chat</button>
                 <textarea
+                    // ref={inputRef}
                     value={draft}
                     onChange={e=> setDraft(e.target.value)}
                     onKeyDown={onKeyDown}
                     rows={1}
                     placeholder="How can I help you today?"
-                    disabled={busy}
+                    // disabled={busy}
                 />
                 <button type="button" className="dads__btn--primary" onClick={submit} disabled={busy || !draft.trim()}>Send</button>
             </footer>

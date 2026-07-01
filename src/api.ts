@@ -1,4 +1,5 @@
 import type { ChatApiResponse, ChatMessage, SessionHistoryResponse, SessionSummary } from "./types";
+const sessionBase: string = '/api/sessions';
 
 export function header(token?: string): HeadersInit {
   const headers: HeadersInit = {
@@ -11,7 +12,7 @@ export function header(token?: string): HeadersInit {
 }
 
 export async function createSession(token?: string): Promise<string> {
-  const response = await fetch('/api/session', {
+  const response = await fetch(sessionBase, {
     method: 'POST',
     headers: header(token),
     body: '{}'
@@ -23,6 +24,23 @@ export async function createSession(token?: string): Promise<string> {
 
   const data = (await response.json()) as { sessionId: string };
   return data.sessionId;
+}
+
+export async function getSessions(token?: string): Promise<SessionSummary[]> {
+  const res = await fetch(sessionBase, {headers: header(token)});
+  if(!res.ok) throw new Error(`sessions failed: ${res.status}`);
+  return (await res.json()) as SessionSummary[];
+}
+
+export async function deleteSession(id: string, token?: string): Promise<void>{
+  const res = await fetch(`${sessionBase}/${encodeURIComponent(id)}`, {method: 'DELETE', headers: header(token)});
+  if(!res.ok) throw new Error(`delete session ${id} failed: ${res.status}`);
+}
+
+export async function getSessionHistory(id:string, token?:string): Promise<SessionHistoryResponse>{
+  const res = await fetch(`${sessionBase}/${encodeURIComponent(id)}`, {headers: header(token)});
+  if(!res.ok) throw new Error(`session ${id} failed: ${res.status}`);
+  return (await res.json()) as SessionHistoryResponse;
 }
 
 export async function sendChat(sessionId: string, message: string, token?: string): Promise<ChatApiResponse> {
@@ -41,21 +59,4 @@ export async function sendChat(sessionId: string, message: string, token?: strin
   }
 
   return (await response.json()) as ChatApiResponse;
-}
-
-export async function getSessions(token?: string): Promise<SessionSummary[]> {
-  const res = await fetch('/api/sessions', {headers: header(token)});
-  if(!res.ok) throw new Error(`sessions failed: ${res.status}`);
-  return (await res.json()) as SessionSummary[];
-}
-
-export async function deleteSession(id: string, token?: string): Promise<void>{
-  const res = await fetch(`api/sessions/${encodeURIComponent(id)}`, {method: 'DELETE', headers: header(token)});
-  if(!res.ok) throw new Error(`delete session ${id} failed: ${res.status}`);
-}
-
-export async function getSessionHistory(id:string, token?:string): Promise<SessionHistoryResponse>{
-  const res = await fetch(`/api/session/${encodeURIComponent(id)}`, {headers: header(token)});
-  if(!res.ok) throw new Error(`session ${id} failed: ${res.status}`);
-  return (await res.json()) as SessionHistoryResponse;
 }
