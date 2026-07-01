@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react"
 import { useChatContext } from "../ChatContext"
+import type { LlmProvider } from "../types"
+
+const PROVIDERS: { id: LlmProvider; label: string }[] = [
+    { id: 'auto', label: 'Auto (Gemini → Ollama)' },
+    { id: 'gemini', label: 'Gemini' },
+    { id: 'ollama', label: 'Ollama (local)' },
+];
 
 export function Chat() {
-    const { messages, busy, send, reset } = useChatContext();
+    const { messages, busy, send, reset, provider, setProvider } = useChatContext();
     const [draft, setDraft] = useState('')
     // const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -64,6 +71,15 @@ export function Chat() {
                     placeholder="How can I help you today?"
                     // disabled={busy}
                 />
+                <select
+                    className="dads__llm"
+                    value={provider}
+                    onChange={e => setProvider(e.target.value as LlmProvider)}
+                    title="Choose which model answers"
+                    aria-label="LLM provider"
+                >
+                    {PROVIDERS.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
+                </select>
                 <button type="button" className="dads__btn--primary" onClick={submit} disabled={busy || !draft.trim()}>Send</button>
             </footer>
         </>

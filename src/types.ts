@@ -1,5 +1,8 @@
 export type Role = 'user' | 'bot' | 'system';
 
+// Which LLM answers a message. 'auto' = Gemini with local-Ollama fallback (backend default).
+export type LlmProvider = 'auto' | 'gemini' | 'ollama';
+
 export interface ChatMessage {
   content: string;
   role: Role;

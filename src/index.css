@@ -103,6 +103,11 @@ html, body, #root { height: 100%; margin: 0; }
   background: var(--teal); color: #fff; font-weight: 600; cursor: pointer;
 }
 .dads__composer button:disabled { opacity: .5; cursor: default; }
+.dads__llm {
+  border: 1px solid #d1d5db; border-radius: 10px; padding: 0 10px;
+  background: #fff; color: #374151; font: inherit; font-size: .82rem; cursor: pointer;
+}
+.dads__llm:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(24, 182, 176, .15); }
 
 .bubble {
   max-width: 78%; padding: 12px 16px; border-radius: 14px;

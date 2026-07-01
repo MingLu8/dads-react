@@ -1,11 +1,13 @@
 import { useCallback, useEffectEvent, useRef, useState } from 'react';
-import type { ChatMessage, Role } from '../types';
+import type { ChatMessage, LlmProvider, Role } from '../types';
 import { createSession, getSessionHistory, sendChat } from '../api';
 import { useAuth } from './useAuth';
 
 type UseChatReturn = {
   messages: ChatMessage[];
   busy: boolean;
+  provider: LlmProvider;
+  setProvider: (p: LlmProvider) => void;
   reset: () => void;
   resume: (id: string) => void;
   send: (content: string) => Promise<void>;
@@ -21,6 +23,7 @@ const createMessage = (role: Role, content: string): ChatMessage => ({
 export function useChat(): UseChatReturn {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [busy, setBusy] = useState(false);
+  const [provider, setProvider] = useState<LlmProvider>('auto');
   const sessionId = useRef<string|null>('');
   const { getToken } = useAuth();
 
@@ -37,7 +40,7 @@ export function useChat(): UseChatReturn {
         const token = getToken ? await getToken() : undefined;
         if(!sessionId.current) sessionId.current = await createSession(token);
 
-        const chatApiResponse = await sendChat(sessionId.current, message, token);
+        const chatApiResponse = await sendChat(sessionId.current, message, provider, token);
         setMessages(prev => [...prev, createMessage('bot', chatApiResponse.message)])
       }
       catch{
@@ -64,6 +67,8 @@ export function useChat(): UseChatReturn {
   return {
     messages,
     busy,
+    provider,
+    setProvider,
     reset,
     send,
     resume,

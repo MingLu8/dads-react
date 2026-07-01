@@ -1,4 +1,4 @@
-import type { ChatApiResponse, ChatMessage, SessionHistoryResponse, SessionSummary } from "./types";
+import type { ChatApiResponse, ChatMessage, LlmProvider, SessionHistoryResponse, SessionSummary } from "./types";
 const sessionBase: string = '/api/sessions';
 
 export function header(token?: string): HeadersInit {
@@ -43,7 +43,7 @@ export async function getSessionHistory(id:string, token?:string): Promise<Sessi
   return (await res.json()) as SessionHistoryResponse;
 }
 
-export async function sendChat(sessionId: string, message: string, token?: string): Promise<ChatApiResponse> {
+export async function sendChat(sessionId: string, message: string, provider: LlmProvider, token?: string): Promise<ChatApiResponse> {
   const chatMessage: ChatMessage = {
     content: message,
     role: 'user',
@@ -51,7 +51,7 @@ export async function sendChat(sessionId: string, message: string, token?: strin
   const response = await fetch('/api/chat', {
     method: 'POST',
     headers: header(token),
-    body: JSON.stringify({ chatMessage, sessionId }),
+    body: JSON.stringify({ chatMessage, sessionId, provider }),
   });
 
   if (!response.ok) {
